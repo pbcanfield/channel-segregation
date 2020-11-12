@@ -19,13 +19,15 @@ PARAMETER {
         gmt=.4   	(1)
 	q10=4.5
 	qtl=1
+
+        lseg = -62.4    (mV)
 }
 
 
 NEURON {
 	SUFFIX hdCA3
 	NONSPECIFIC_CURRENT i
-        RANGE ghd, i, ghdbar :, vhalfl
+        RANGE ghd, i, ghdbar, lseg :, vhalfl
         RANGE linf,taul
 }
 
@@ -71,11 +73,14 @@ PROCEDURE rate(v (mV)) { :callable from hoc
         LOCAL a,qt
         qt=q10^((celsius-33)/10)
         a = alpt(v)
-		if (v > -62.5 ) {
+		
+        if (v > lseg ) {
 		linf = 0
-		} else{
-        linf = 1/(1 + exp(-(v-vhalfl)/kl))
-		}
+	} 
+        else {
+                linf = 1/(1 + exp(-(v-vhalfl)/kl))
+	}
+        
         taul = bett(v)/(qtl*qt*a0t*(1+a))
 }
 

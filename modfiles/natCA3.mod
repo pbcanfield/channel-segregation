@@ -7,7 +7,8 @@ NEURON {
 	SUFFIX natCA3
 	USEION na READ ena WRITE ina
 	:RANGE  , i :, ar2
-	RANGE gbar, gna, i, minf, hinf, mtau, htau : , qinf, thinf
+	RANGE gbar, gna, i, minf, hinf, mtau, htau, mseg : , qinf, thinf
+
 }
 
 PARAMETER {
@@ -38,6 +39,9 @@ PARAMETER {
 	ena		(mV)            : must be explicitly def. in hoc
 	celsius
 	v 		(mV)
+
+	mseg = -52.5
+	:Right now h curve is not segregated.
 }
 
 
@@ -83,22 +87,27 @@ DERIVATIVE states {
 }
 
 PROCEDURE trates(vm,a2) {  
-        LOCAL  a, b, qt
-		qt = 1.6245
-		tha1 = tha 
+    LOCAL  a, b, qt
+	
+	qt = 1.6245
+	tha1 = tha 
 	a = trap0(vm,tha1,Ra,qa)
 	b = trap0(-vm,-tha1,Rb,qa)
 	mtau = 1/(a+b)/qt
-        if (mtau<mmin) {mtau=mmin}
-	if (v < -52.5 ) {			:-57.5
-	minf = 0
-	} else{
-	minf  = 1 / ( 1 + exp( ( - v - 35.5) / 7.2 ) ) :35.5
+    if (mtau<mmin) {mtau=mmin}
+	
+	if (v < mseg) {			:-57.5
+		minf = 0
+	} 
+	else {
+		minf  = 1 / ( 1 + exp( ( - v - 35.5) / 7.2 ) ) :35.5
 	}
+	
 	a = trap0(vm,thi1,Rd,qd)
 	b = trap0(-vm,-thi2,Rg,qg)
 	htau =  1/(a+b)/qt
-        if (htau<hmin) {htau=hmin}
+    if (htau<hmin) {htau=hmin}
+	
 	hinf  = 1 / ( 1 + exp( ( v + 40 ) / 4 ) )
 }
 
