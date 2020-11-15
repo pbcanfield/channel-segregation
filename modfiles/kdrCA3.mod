@@ -23,6 +23,8 @@ PARAMETER {
 	qt=1
 
 	nseg = -55 (mV)
+
+	ntfactor = 1
 }
 
 
@@ -30,7 +32,8 @@ NEURON {
 	SUFFIX kdrCA3
 	USEION k READ ek WRITE ik
         RANGE gkdr, i, gbar
-	RANGE ninf,taun, nseg
+	RANGE ninf,taun, nseg, vhalfn
+	RANGE ntfactor
 }
 
 STATE {
@@ -83,7 +86,7 @@ PROCEDURE rates(v (mV)) { :callable from hoc
 		ninf = 1 / ( 1 + exp( ( vhalfn - v ) / 11 ) )
 	}
 
-	taun = betn(v)/(qt*(0.08)*(1+a))
+	taun = (betn(v)/(qt*(0.08)*(1+a))) * ntfactor
 	if (taun<nmax) {taun=nmax}
 }
 		

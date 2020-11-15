@@ -21,13 +21,15 @@ PARAMETER {
 	qtl=1
 
         lseg = -62.4    (mV)
+
+        ltfactor = 1
 }
 
 
 NEURON {
 	SUFFIX hdCA3
 	NONSPECIFIC_CURRENT i
-        RANGE ghd, i, ghdbar, lseg :, vhalfl
+        RANGE ghd, i, ghdbar, lseg, vhalfl, ltfactor
         RANGE linf,taul
 }
 
@@ -81,7 +83,7 @@ PROCEDURE rate(v (mV)) { :callable from hoc
                 linf = 1/(1 + exp(-(v-vhalfl)/kl))
 	}
         
-        taul = bett(v)/(qtl*qt*a0t*(1+a))
+        taul = (bett(v)/(qtl*qt*a0t*(1+a))) * ltfactor
 }
 
 
