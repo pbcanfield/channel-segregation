@@ -23,7 +23,7 @@ PARAMETER {
 	gbar = 3e-4 :1e-4 	(mho/cm2)
 	v ena 		(mV)  
 	k = 5      (mV)
-	vhalf = -48 (mV)
+	vhalf = -48 :-48 (mV)
 	mseg = -999 
 } 
 ASSIGNED { 
@@ -57,7 +57,7 @@ DERIVATIVE states {
 UNITSOFF
  
 PROCEDURE rate(v (mV)) {
-	if (v < -67.5 ) {
+	if (v < -100 ) { :-67.5
 	minf = 0
 	} else{
 	minf  = 1 / ( 1 + exp( ( vhalf - v ) / k ) )

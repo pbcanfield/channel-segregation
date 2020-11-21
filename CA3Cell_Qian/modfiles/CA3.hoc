@@ -25,10 +25,14 @@ begintemplate CA3Cell
 
 		//Parameters.
 		gnat = 0.03 //0.08 //0.06
+		ghd = 0 //1.0e-5 //1.0e-5
 		gkdr = 0.04 //0.04 //0.065 //0.03 //0.015
-
+		gsahp = 0 //0.0006 //0.001 //0.005 
 		gnap = 0.0005 //0.0022 //0.0022 //0.0013 //0.0009 //0.00065
+		gcal = 0 //0.015 //0.005 //0.017 //0.017 
+
 		gim  = 0.017 //0.005 //0.007 //0.00501 //0005 //0.007 //0.009
+		gcas = 0 //0.003 //0.0005 //0.0005 //0.0005
 
 		all = new SectionList()
 		somatic = new SectionList()
@@ -64,28 +68,40 @@ begintemplate CA3Cell
 			Ra = 150 
 			cm = 2.4 // 2.5
 			
-
+			insert capool
+			
+			insert cal
+			gcalbar_cal = gcal
 
 			insert natCA3  
 			gbar_natCA3 = gnat
 
 			insert nap//0.0
 			gbar_nap = gnap 
+
+			insert hdCA3 
+			ghdbar_hdCA3 = ghd
 			
 			insert kdrCA3 
 			gbar_kdrCA3 = gkdr
 		
-
+			insert sAHP
+			gsAHPbar_sAHP = gsahp
 
 			insert im
 			gbar_im = gim
 
+			insert cas
+			gbar_cas = gcas
 
-			ena=45  ek=-80  	
+			ena=45  ek=-80  ehd=-45  eca = 134		
 		}
 				
 		dend[0] {
-
+			insert capool
+			
+			insert cal
+			gcalbar_cal = gcal
 
 			insert leakCA3 
 			el_leakCA3 = -75  
@@ -98,17 +114,31 @@ begintemplate CA3Cell
 
 			insert nap
 			gbar_nap = gnap 
+
+			insert hdCA3 
+			ghdbar_hdCA3 = ghd
 			
 			insert kdrCA3 
 			gbar_kdrCA3 = gkdr
-	
+			
+			insert sAHP
+			gsAHPbar_sAHP = gsahp
+
 			insert im
 			gbar_im = gim
 
-			ena=45  ek=-80  
+			insert cas
+			gbar_cas = gcas
+
+			ena=45  ek=-80  ehd=-45  eca = 134
 		}
 								
 		dend[1] {
+			insert capool
+
+			insert cal
+			gcalbar_cal = gcal
+
 			insert leakCA3 
 			el_leak = -75  
 			glbar_leakCA3 = 1.57*3e-5 
@@ -120,14 +150,23 @@ begintemplate CA3Cell
 
 			insert nap
 			gbar_nap = gnap 
+
+			insert hdCA3 
+			ghdbar_hdCA3 =ghd 
 			
 			insert kdrCA3 
 			gbar_kdrCA3 = gkdr
 
+			insert sAHP
+			gsAHPbar_sAHP = gsahp
+
 			insert im
 			gbar_im = gim
 
-			ena=45  ek=-80 
+			insert cas
+			gbar_cas = gcas
+			
+			ena=45  ek=-80  ehd=-45  eca = 134
 		}
 		
 		define_shape()

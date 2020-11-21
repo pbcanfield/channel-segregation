@@ -12,19 +12,15 @@ UNITS {
 PARAMETER {
 
 	v (mV)
-    ek (mV)		: must be explicitely def. in hoc
+        ek (mV)		: must be explicitely def. in hoc
 	celsius		(degC)
 	gbar=.003 (mho/cm2)
-    vhalfn = 0 :-15: 13 : -25  : -20  (mV)
-	a0n=0.02      (/ms)
-    zetan=-3    (1)
-    gmn=0.7  (1)
+        vhalfn = 0 :-15: 13 : -25  : -20  (mV)
+        a0n=0.02      (/ms)
+        zetan=-3    (1)
+        gmn=0.7  (1)
 	nmax=2  (1)
 	qt=1
-
-	nseg = -55 (mV)
-
-	ntfactor = 1
 }
 
 
@@ -32,8 +28,7 @@ NEURON {
 	SUFFIX kdrCA3
 	USEION k READ ek WRITE ik
         RANGE gkdr, i, gbar
-	RANGE ninf,taun, nseg, vhalfn
-	RANGE ntfactor
+	RANGE ninf,taun
 }
 
 STATE {
@@ -76,17 +71,15 @@ DERIVATIVE states {     : exact when v held constant; integrates over dt step
 }
 
 PROCEDURE rates(v (mV)) { :callable from hoc
-	LOCAL a
-	a = alpn(v)
-	
-	if (v < nseg ) {              ::::::::::::::::::::   -55
+        LOCAL a
+        a = alpn(v)
+		if (v < -55 ) {              ::::::::::::::::::::   -55
 		ninf = 0
-	} 
-	else {
-		ninf = 1 / ( 1 + exp( ( vhalfn - v ) / 11 ) )
-	}
-
-	taun = (betn(v)/(qt*(0.08)*(1+a))) * ntfactor
+		} else{
+		ninf = 1 / ( 1 + exp( ( vhalfn - v ) / 11 ) ) :/11
+		:ninf = 1 / ( 1 + exp( ( - v + 13 ) / 8.738 ) )
+        }
+		taun = betn(v)/(qt*(0.08)*(1+a))
 	if (taun<nmax) {taun=nmax}
 }
 		

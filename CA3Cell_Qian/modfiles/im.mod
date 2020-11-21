@@ -65,11 +65,11 @@ PROCEDURE rate(v (mV)) {
 	aa=alf(v) ab=bet(v) 
 	
 	sum = aa+ab
-	if (v < -67.5 ) {					:-67.5
+	if (v < -100 ) {					:-67.5
 	ninf = 0
 	} else {
-	ninf = 1 / ( 1 + exp( ( - v - 35 ) / 10.34 ) ) :-52.7
+	ninf = 1 / ( 1 + exp( ( - v - 35 ) / 10.34 ) ) :-35/10.34 :-52.7/10.34
 	}
-	taun = 1.5/sum
+	taun = 5/sum :increase
 	UNITSON
 }
